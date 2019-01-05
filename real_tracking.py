@@ -6,10 +6,6 @@ video = cv2.VideoCapture("GOPR2902_orange.MP4")
 # tracker = cv2.TrackerMedianFlow_create()
 
 
-def denoise_image(image):
-    return cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
-
-
 def resize_frame(frame):
     width = int(frame.shape[1] / 1)
     height = int(frame.shape[0] / 1)
@@ -30,8 +26,6 @@ video = wait_n_seconds(800, video)
 _, frame = video.read()
 frame = resize_frame(frame)
 
-frame = denoise_image(frame)
-
 track_window = cv2.selectROI("test", frame)
 cv2.destroyWindow("test")
 
@@ -42,7 +36,6 @@ while True:
     if ret is True:
 
         frame = resize_frame(frame)
-        frame = denoise_image(frame)
     
         hsv_roi = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
