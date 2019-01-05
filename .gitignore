@@ -1,0 +1,8 @@
+*.mp4
+*.MP4
+pyvenv.cfg
+*.7z
+*.MOV
+.MOV
+.vscode
+.avi
