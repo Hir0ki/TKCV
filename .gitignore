@@ -6,3 +6,4 @@ pyvenv.cfg
 .MOV
 .vscode
 *.avi
+__pycache__
