@@ -42,7 +42,7 @@ class processing_thread(threading.Thread):
 
         for n in range(image_range[1] - image_range[0]):
             
-            frame = get_image(input_dir, n)
+            frame = get_image(self.input_dir, n)
 
             frame = denoise_image(frame)
             print("Frame: n done!")

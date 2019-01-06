@@ -25,13 +25,10 @@ class thread_orcastrator():
         self.threads = []
         self.image_count = get_image_count(input_dir)
 
-   
     def create_threads(self):
 
         for n in range(self.thread_count):
-            self.threads.append(processing_thread(n,
-                                 'image_thread', self.input_dir,
-                                  self.output_dir))
+            self.threads.append(processing_thread(n, 'image_thread', self.input_dir, self.output_dir))
 
     def check_thead_working(self):
         index = 0
@@ -40,10 +37,11 @@ class thread_orcastrator():
             if thread.isAlive() is False:
                 inactivThreads.append(index)
             index = index + 1
+        print(inactivThreads)    
         return inactivThreads
             
     def run_thread(self, n, image_range):
-        self.threads[n].run()
+        self.threads[n].run(image_range)
 
     def get_next_frame_range(self):
         frame_range = (self.current_count, self.current_count + 100)
@@ -55,10 +53,11 @@ class thread_orcastrator():
 
         while self.current_count < self.image_count:
             
-            inactivThreads = self.check_thead_working
+            inactivThreads = self.check_thead_working()
             
             for n in inactivThreads:
-                self.run_thread(n, get_next_frame_range())
+
+                self.run_thread(n, self.get_next_frame_range())
 
 
 config = get_config()
