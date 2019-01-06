@@ -2,19 +2,7 @@ import cv2
 import time as testtime
 
 
-def denoise_image(image):
-    return cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
-
-
-def resize_frame(frame):
-    width = int(frame.shape[1] / 1)
-    height = int(frame.shape[0] / 1)
-    dim = (width, height)
-    # resize image
-    frame = cv2.resize(frame, dim)
-    return frame
-
-file = open("testfile.txt","w") 
+file = open("testfile.txt", "w")
 video = cv2.VideoCapture("GOPR2902_orange.MP4")
 
 _, frame = video.read()
@@ -51,8 +39,8 @@ while count < 3:
 end_time = testtime.time()
 
 file.write("---------------")
-file.write(str(start_time)+";")
-file.write(str(end_time) + ";") 
+file.write(str(start_time) + ";")
+file.write(str(end_time) + ";")
 file.write(str(end_time - start_time) + ";")
 
 file.close()
