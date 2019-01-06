@@ -4,6 +4,7 @@ from os import listdir
 
 
 def denoise_image(image):
+    image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
     return cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
 
 
@@ -21,7 +22,7 @@ def get_image(dir, number):
     file_name = make_file_name(number)
     path = dir + file_name
     print(path)
-    cv2.imread(path)
+    return cv2.imread(path)
 
 
 def write_image(dir, image, number):

@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-video = cv2.VideoCapture("GOPR2902_orange.MP4")
+video = cv2.VideoCapture("NOFLICKER.mov")
 # window = cv2.namedWindow("test")
 # tracker = cv2.TrackerMedianFlow_create()
 
