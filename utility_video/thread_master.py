@@ -51,7 +51,7 @@ class thread_orcastrator():
     def start(self):
         self.create_threads()
 
-        while self.current_count < self.image_count:
+        while True : #self.current_count < self.image_count
             
             inactivThreads = self.check_thead_working()
             

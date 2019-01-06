@@ -4,7 +4,7 @@ from os import listdir
 
 
 def denoise_image(image):
-    image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+    print(image)
     return cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
 
 
@@ -14,14 +14,14 @@ def make_file_name(number):
     number_length = len(number)
     image_number = image_number+number
     image_number = image_number[number_length:]
-    file_name = "img-" + image_number + ".bmg"
+    file_name = "/img-" + image_number + ".png"
+    print(file_name)
     return file_name
 
 
 def get_image(dir, number):
     file_name = make_file_name(number)
     path = dir + file_name
-    print(path)
     return cv2.imread(path)
 
 
@@ -43,8 +43,8 @@ class processing_thread(threading.Thread):
 
         for n in range(image_range[1] - image_range[0]):
             
-            frame = get_image(self.input_dir, n)
-
+            frame = get_image(self.input_dir, n+1)
+            print(frame)
             frame = denoise_image(frame)
             print("Frame: n done!")
             write_image(self.output_dir, frame, n)

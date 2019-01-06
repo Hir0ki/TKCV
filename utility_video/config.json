@@ -1,5 +1,5 @@
 {
     "thread_count" : 2,
-    "input_path" : "..",
-    "output_path" : ".."
+    "input_path" : "/home/david/Projects/OpenCV/first_Test/src/TKCV/utility_video/png",
+    "output_path" : "/home/david/Projects/OpenCV/first_Test/src/TKCV/utility_video/output"
 }
