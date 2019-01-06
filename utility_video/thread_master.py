@@ -55,10 +55,10 @@ class thread_orcastrator():
 
         while self.current_count < self.image_count:
             
-            inactivThreads = check_thead_working
+            inactivThreads = self.check_thead_working
             
             for n in inactivThreads:
-                run_thread(n, frame_range())
+                self.run_thread(n, get_next_frame_range())
 
 
 config = get_config()
