@@ -49,11 +49,15 @@ class thread_orcastrator:
                 return False
 
     def run_thread(self, n, image_range):
-        self.threads[n].run(image_range)
+        print(n)
+        self.current_count = image_range[1]
+        print(image_range[1])
+        self.threads[n].next_range = image_range
+        self.threads[n].start()
 
     def get_next_frame_range(self):
         frame_range = (self.current_count, self.current_count + 100)
-        self.current_count = self.current_count + 100
+        
         return frame_range
 
     def start(self):
@@ -74,7 +78,6 @@ class thread_orcastrator:
 
 
 config = get_config()
-print(config)
 orcast = thread_orcastrator(
     config["thread_count"], config["input_path"], config["output_path"]
 )

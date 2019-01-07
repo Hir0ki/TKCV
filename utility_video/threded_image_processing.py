@@ -4,8 +4,11 @@ from os import listdir
 
 
 def denoise_image(image):
-    print(image)
-    return cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
+    try:
+        return cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
+    except BaseException as identifier:
+        return False
+    
 
 
 def make_file_name(number):
@@ -15,7 +18,6 @@ def make_file_name(number):
     image_number = image_number+number
     image_number = image_number[number_length:]
     file_name = "/img-" + image_number + ".png"
-    print(file_name)
     return file_name
 
 
@@ -28,7 +30,7 @@ def get_image(dir, number):
 def write_image(dir, image, number):
     file_name = file_name = make_file_name(number)
     path = dir + file_name
-    cv2.imwrite(path)
+    cv2.imwrite(path, image)
 
 
 class processing_thread(threading.Thread):
@@ -38,14 +40,16 @@ class processing_thread(threading.Thread):
         self.name = name
         self.input_dir = input_dir
         self.output_dir = output_dir
+        self.next_range = (0,0)
+    def run(self):
 
-    def run(self, image_range):
-
-        for n in range(image_range[1] - image_range[0]):
+        for n in range(self.next_range[1] - self.next_range[0]):
             
             frame = get_image(self.input_dir, n+1)
-            print(frame)
             frame = denoise_image(frame)
-            print("Frame: n done!")
-            write_image(self.output_dir, frame, n)
+            if frame is False:
+                "None Frame Found {}".format(n+1)
+            else:
+                print("Frame: {} done!".format(n+1))
+                write_image(self.output_dir, frame, n+1)
 
