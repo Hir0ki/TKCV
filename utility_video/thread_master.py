@@ -56,7 +56,7 @@ class thread_orcastrator:
         self.threads[n].start()
 
     def get_next_frame_range(self):
-        frame_range = (self.current_count, self.current_count + 100)
+        frame_range = (self.current_count, self.current_count + 10)
         
         return frame_range
 
