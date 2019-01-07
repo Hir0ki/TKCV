@@ -5,7 +5,7 @@ import time
 
 
 def get_config():
-    file = open("config.json", "r")
+    file = open("/home/david/Projects/OpenCV/first_Test/src/TKCV/utility_video/config.json", "r")
     json_string = file.read(90000)
     return json.loads(json_string)
 
@@ -38,37 +38,48 @@ class thread_orcastrator:
             if thread.isAlive() is False:
                 inactivThreads.append(index)
             index = index + 1
-        print(inactivThreads)
         return inactivThreads
+
+    def free_threads(self):
+        free_threads = []
+        for i, thread in enumerate(self.threads):
+            if thread.need_work is True:
+                free_threads.append(i)
+        return free_threads
 
     def check_is_thead_still_working(self):
         for thread in self.threads:
             if thread.isAlive() is True:
-                return True
+                thread.working = False 
             else:
-                return False
+                return True
 
-    def run_thread(self, n, image_range):
-        print(n)
-        self.current_count = image_range[1]
-        print(image_range[1])
+    def add_work_to_thread(self, n, image_range):
         self.threads[n].next_range = image_range
+        self.threads[n].need_work = False 
+
+    def start_thread(self, n, image_range):
+        self.threads[n].next_range = image_range
+        self.threads[n].need_work = False
         self.threads[n].start()
 
     def get_next_frame_range(self):
         frame_range = (self.current_count, self.current_count + 10)
-        
+        self.current_count = frame_range[1]
         return frame_range
 
     def start(self):
         self.create_threads()
-
+        #Start all Threads 
+        inactivThreads = self.check_thead_working()
+        for n in inactivThreads:
+            self.start_thread(n, self.get_next_frame_range())
+        
         while self.current_count < self.image_count:
-            inactivThreads = self.check_thead_working()
+           for n in self.free_threads():
+               self.add_work_to_thread(n, self.get_next_frame_range())
 
-            for n in inactivThreads:
-
-                self.run_thread(n, self.get_next_frame_range())
+                
 
         while True:
             if self.check_is_thead_still_working() is False:
@@ -83,4 +94,5 @@ orcast = thread_orcastrator(
 )
 
 orcast.start()
+
 

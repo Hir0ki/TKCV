@@ -41,15 +41,26 @@ class processing_thread(threading.Thread):
         self.input_dir = input_dir
         self.output_dir = output_dir
         self.next_range = (0,0)
+        self.need_work = True
+        self.working = True
     def run(self):
-
-        for n in range(self.next_range[1] - self.next_range[0]):
-            
-            frame = get_image(self.input_dir, n+1)
-            frame = denoise_image(frame)
-            if frame is False:
-                "None Frame Found {}".format(n+1)
-            else:
-                print("Frame: {} done!".format(n+1))
-                write_image(self.output_dir, frame, n+1)
-
+        
+        while self.working is True:
+            if self.next_range is None:
+                self.need_work = False
+            if self.need_work is False:
+                if self.next_range is not None:
+                    print("Tread {} working on range: {}-{}".format(self.threadID, self.next_range[0], self.next_range[1]))
+                    for n in range(self.next_range[1] - self.next_range[0]):
+                        n = self.next_range[0] + n +1
+                        frame = get_image(self.input_dir, n)
+                        frame = denoise_image(frame)
+                        if frame is False:
+                            "None Frame Found {}".format(n)
+                        else:
+                            print("Frame: {} done!".format(n))
+                            write_image(self.output_dir, frame, n)
+                    print("Task: {} done".format(self.threadID))
+            if self.next_range is None:
+                self.need_work = True
+            self.next_range = None
