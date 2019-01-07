@@ -6,7 +6,7 @@ import time
 
 def get_config():
     file = open("config.json", "r")
-    json_string = file.read(90000)   
+    json_string = file.read(90000)
     return json.loads(json_string)
 
 
@@ -15,8 +15,7 @@ def get_image_count(path):
     return len(all_images)
 
 
-class thread_orcastrator():
-
+class thread_orcastrator:
     def __init__(self, thread_count, input_dir, output_dir):
         self.thread_count = thread_count
         self.current_count = 1
@@ -28,7 +27,9 @@ class thread_orcastrator():
     def create_threads(self):
 
         for n in range(self.thread_count):
-            self.threads.append(processing_thread(n, 'image_thread', self.input_dir, self.output_dir))
+            self.threads.append(
+                processing_thread(n, "image_thread", self.input_dir, self.output_dir)
+            )
 
     def check_thead_working(self):
         index = 0
@@ -37,7 +38,7 @@ class thread_orcastrator():
             if thread.isAlive() is False:
                 inactivThreads.append(index)
             index = index + 1
-        print(inactivThreads)    
+        print(inactivThreads)
         return inactivThreads
 
     def check_is_thead_still_working(self):
@@ -54,30 +55,29 @@ class thread_orcastrator():
         frame_range = (self.current_count, self.current_count + 100)
         self.current_count = self.current_count + 100
         return frame_range
-         
+
     def start(self):
         self.create_threads()
 
-        while True : # self.current_count < self.image_count
-            
+        while self.current_count < self.image_count:
             inactivThreads = self.check_thead_working()
-            
+
             for n in inactivThreads:
 
                 self.run_thread(n, self.get_next_frame_range())
-        
+
         while True:
             if self.check_is_thead_still_working() is False:
                 break
             else:
-                time.sleep(1)                
+                time.sleep(1)
 
 
 config = get_config()
 print(config)
-orcast = thread_orcastrator(config['thread_count'], config['input_path'], config['output_path'])
-    
+orcast = thread_orcastrator(
+    config["thread_count"], config["input_path"], config["output_path"]
+)
+
 orcast.start()
-
-
 

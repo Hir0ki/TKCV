@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 
 def denoise_image(image):
@@ -12,3 +13,12 @@ def resize_frame(frame):
     # resize image
     frame = cv2.resize(frame, dim)
     return frame
+
+
+def pixel_in_color_range(min_color: np.array, max_color: np.array, pixel_color: np.array):
+    for index, n in enumerate(min_color):
+        if not (n <= pixel_color[index] and max_color[index] >= pixel_color[index]):
+            return False
+    return True
+
+
