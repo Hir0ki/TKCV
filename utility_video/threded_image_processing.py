@@ -8,14 +8,13 @@ def denoise_image(image):
         return cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
     except BaseException as identifier:
         return False
-    
 
 
 def make_file_name(number):
-    image_number = '0000000'
+    image_number = "0000000"
     number = str(number)
     number_length = len(number)
-    image_number = image_number+number
+    image_number = image_number + number
     image_number = image_number[number_length:]
     file_name = "/img-" + image_number + ".png"
     return file_name
@@ -40,19 +39,24 @@ class processing_thread(threading.Thread):
         self.name = name
         self.input_dir = input_dir
         self.output_dir = output_dir
-        self.next_range = (0,0)
+        self.next_range = (0, 0)
         self.need_work = True
         self.working = True
+
     def run(self):
-        
+
         while self.working is True:
             if self.next_range is None:
                 self.need_work = False
             if self.need_work is False:
                 if self.next_range is not None:
-                    print("Tread {} working on range: {}-{}".format(self.threadID, self.next_range[0], self.next_range[1]))
+                    print(
+                        "Tread {} working on range: {}-{}".format(
+                            self.threadID, self.next_range[0], self.next_range[1]
+                        )
+                    )
                     for n in range(self.next_range[1] - self.next_range[0]):
-                        n = self.next_range[0] + n +1
+                        n = self.next_range[0] + n + 1
                         frame = get_image(self.input_dir, n)
                         frame = denoise_image(frame)
                         if frame is False:

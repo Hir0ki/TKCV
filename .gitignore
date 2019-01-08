@@ -3,8 +3,9 @@
 pyvenv.cfg
 *.7z
 *.MOV
-.MOV
+*.mov
 .vscode
 *.avi
 __pycache__
 *.png
+.pytest_cache
