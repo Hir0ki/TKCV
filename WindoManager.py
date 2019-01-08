@@ -35,3 +35,4 @@ class WindowManger:
             # Discard any non-ASCII info encoded by GTK.
             keycode &= 0xFF
             self.keypressCallback(keycode)
+        

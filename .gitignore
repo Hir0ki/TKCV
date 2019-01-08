@@ -6,6 +6,11 @@ pyvenv.cfg
 *.mov
 .vscode
 *.avi
-__pycache__
 *.png
+output
+phoos
+png
+__pycache__
 .pytest_cache
+*.pyc
+v

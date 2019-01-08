@@ -2,6 +2,10 @@ import cv2
 import time as testtime
 
 
+def denoise_image(image):
+    return cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
+
+
 file = open("testfile.txt", "w")
 video = cv2.VideoCapture("GOPR2902_orange.MP4")
 
@@ -16,7 +20,7 @@ start_time = testtime.time()
 count = 0
 lines = []
 
-while count < 3:
+while True:
     ret, frame = video.read()
 
     count = count + 1

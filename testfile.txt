@@ -1,1 +1,0 @@
-Frame: 1 done;Time for process: 1.845237777;Frame: 1 done;Frame: 2 done;Time for process: 1.759423917;Frame: 2 done;Frame: 3 done;Time for process: 1.714276908;Frame: 3 done;---------------1546732631.1068368;1546732636.465038;5.358201265335083;
