@@ -1,5 +1,6 @@
 {
-    "thread_count" : 2,
-    "input_path" : "/home/david/Projects/OpenCV/first_Test/src/png",
-    "output_path" : "/home/david/Projects/OpenCV/first_Test/src/output"
+    "thread_count" : 10,
+    "working_size"    : 10,
+    "input_path" : "C:\\Users\\David-PC\\Desktop\\Projects\\OpenCv\\Inpzt",
+    "output_path" : "C:\\Users\\David-PC\\Desktop\\Projects\\OpenCv\\output"
 }

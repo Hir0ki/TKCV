@@ -5,7 +5,7 @@ import time
 
 
 def get_config():
-    file = open("/home/david/Projects/OpenCV/first_Test/src/TKCV/utility_video/config.json", "r")
+    file = open("config.json", "r")
     json_string = file.read(90000)
     return json.loads(json_string)
 
@@ -16,7 +16,8 @@ def get_image_count(path):
 
 
 class thread_orcastrator:
-    def __init__(self, thread_count, input_dir, output_dir):
+    def __init__(self, thread_count, input_dir, output_dir, working_size):
+        self.working_size = working_size
         self.thread_count = thread_count
         self.current_count = 1
         self.input_dir = input_dir
@@ -54,6 +55,10 @@ class thread_orcastrator:
             else:
                 return True
 
+    def stop_all_threads(self):
+        for thread in self.threads:
+            thread.working = False
+
     def add_work_to_thread(self, n, image_range):
         self.threads[n].next_range = image_range
         self.threads[n].need_work = False 
@@ -64,7 +69,7 @@ class thread_orcastrator:
         self.threads[n].start()
 
     def get_next_frame_range(self):
-        frame_range = (self.current_count, self.current_count + 10)
+        frame_range = (self.current_count, self.current_count + self.working_size)
         self.current_count = frame_range[1]
         return frame_range
 
@@ -75,24 +80,27 @@ class thread_orcastrator:
         for n in inactivThreads:
             self.start_thread(n, self.get_next_frame_range())
         
-        while self.current_count < self.image_count:
+        while self.current_count < self.image_count + self.working_size +1:
            for n in self.free_threads():
                self.add_work_to_thread(n, self.get_next_frame_range())
-
+        print("All work is distiebuted")
                 
 
         while True:
-            if self.check_is_thead_still_working() is False:
+            free_threads = self.free_threads()
+            if len(free_threads) == self.thread_count:
                 break
-            else:
-                time.sleep(1)
+        print("All Work is done")
+        self.stop_all_threads()
+        print("All Threads are stopt")
 
 
 config = get_config()
 orcast = thread_orcastrator(
-    config["thread_count"], config["input_path"], config["output_path"]
+    config["thread_count"], config["input_path"], config["output_path"], config["working_size"]
 )
 
 orcast.start()
+print("Done")
 
 
