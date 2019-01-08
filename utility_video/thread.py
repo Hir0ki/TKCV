@@ -9,7 +9,7 @@ def denoise_image(image):
 
 input_dir_path = sys.argv[1]
 output_path = sys.argv[2]
-
+print(sys.argv)
 image = cv2.imread(input_dir_path)
 new_image = denoise_image( image )
 print(new_image)
