@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for i in `seq 0000014..0000000100`; do
+
+for i in {01..05}; do echo "$i"; done
